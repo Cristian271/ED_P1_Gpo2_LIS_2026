@@ -124,7 +124,7 @@ public class Distribution extends DoubleList {
         System.out.println("5) Ir a la parada anterior");
         System.out.println("6) Volver al menú principal");
     }
-
+    // Esto se borra luego, es unicamente para probar
     public static void main(String[] args) {
         Distribution list = new Distribution();
         list.insertEnd("Parada1");

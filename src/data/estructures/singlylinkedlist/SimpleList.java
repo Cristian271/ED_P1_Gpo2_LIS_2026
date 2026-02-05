@@ -1,4 +1,4 @@
 package data.estructures.singlylinkedlist;
 
-public class List {
+public class SimpleList {
 }

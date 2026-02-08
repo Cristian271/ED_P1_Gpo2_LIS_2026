@@ -17,6 +17,7 @@ public class ContainerContent extends ProductSimpleList {
         String name = scanner.nextLine();
         System.out.print("Peso (en kg): ");
         float weight = scanner.nextFloat();
+        scanner.nextLine();
 
         Product newP = new Product(name, weight);
         if (start == null) {

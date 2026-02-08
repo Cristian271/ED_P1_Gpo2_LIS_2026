@@ -128,12 +128,22 @@ public class Distribution extends DoubleList {
     }
     @Override
     public void goNext() {
-        position = position.getNext();
+
+        if (position != null && position.getNext() != null){
+            position = position.getNext();
+        } else {
+            System.out.println("ULtima parada, ya no se puede recorrer hacia el siguiente");
+        }
     }
 
     @Override
     public void goBack() {
-        position = position.getPrevious();
+
+        if (position != null && position.getPrevious() != null){
+            position = position.getPrevious();
+        } else {
+            System.out.println("Primera parada, ya no se puede recorrer para atrás");
+        }
     }
 
     @Override
@@ -152,9 +162,8 @@ public class Distribution extends DoubleList {
         System.out.println("1) Agregar nueva parada final");
         System.out.println("2) Insertar parada entre destinos");
         System.out.println("3) Eliminar parada");
-        System.out.println("4) Ir a la siguiente parada");
-        System.out.println("5) Ir a la parada anterior");
-        System.out.println("6) Volver al menú principal");
+        System.out.println("4) SIMULAR RECORRIDO");
+        System.out.println("5) Volver al menú principal");
     }
     // Esto se borra luego, es unicamente para probar
     public static void main(String[] args) {

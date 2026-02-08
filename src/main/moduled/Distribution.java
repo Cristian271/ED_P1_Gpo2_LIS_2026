@@ -6,6 +6,7 @@ public class Distribution extends DoubleList {
     protected int cont;
     public Distribution(){
         cont = 0;
+        this.position = null;
     }
 
 
@@ -14,6 +15,7 @@ public class Distribution extends DoubleList {
     public void insertEnd(String nameStop) {
         if(isEmpty()){
             start = end = new StopBus(nameStop);
+            position = start;
             cont++;
         } else{
             StopBus temp = new StopBus(nameStop, end, null);
@@ -30,7 +32,7 @@ public class Distribution extends DoubleList {
         } else{
             StopBus current = start;
             int who = -1; // 1 -> Encontró al nodo uno primero; 2 -> encontró al nodo dos primero
-            while(true){
+            while(current!=null){
                 if(current.getNameStop().equals(one)){
                     who = 1;
                     break;
@@ -46,11 +48,11 @@ public class Distribution extends DoubleList {
                     System.out.println("No se pudo añadir la parada, error en alguno de los datos");
                     break;
                 case 1:
-                    if(current.getNext().getNameStop().equals(two)){
+                    if(current.getNext()!=null && current.getNext().getNameStop().equals(two)){
                         StopBus temp = new StopBus(nameStop, current, current.getNext());
                         current.getNext().setPrevious(temp);
                         current.setNext(temp);
-                    } else if(current.getPrevious().getNameStop().equals(two)){
+                    } else if(current.getPrevious() != null && current.getPrevious().getNameStop().equals(two)){
                         StopBus temp = new StopBus(nameStop, current.getPrevious(), current);
                         current.getPrevious().setNext(temp);
                         current.setPrevious(temp);
@@ -59,11 +61,11 @@ public class Distribution extends DoubleList {
                     }
                     break;
                 case 2:
-                    if(current.getNext().getNameStop().equals(one)){
+                    if(current.getNext() != null && current.getNext().getNameStop().equals(one)){
                         StopBus temp = new StopBus(nameStop, current, current.getNext());
                         current.getNext().setPrevious(temp);
                         current.setNext(temp);
-                    } else if(current.getPrevious().getNameStop().equals(one)){
+                    } else if(current.getPrevious() != null && current.getPrevious().getNameStop().equals(one)){
                         StopBus temp = new StopBus(nameStop, current.getPrevious(), current);
                         current.getPrevious().setNext(temp);
                         current.setPrevious(temp);
@@ -87,16 +89,43 @@ public class Distribution extends DoubleList {
                 current = current.getNext();
             }
 
-            if(current != null && current.getNameStop().equals(name)){ // Validamos si realmente lo encontró, o llego al final
-                deleted = current.getNameStop();
-                current.getNext().setPrevious(current.getPrevious());
-                current.getPrevious().setNext(current.getNext());
+            if (current == null) return null; // no hay
+
+            //Es el único nodo
+            if (current == start && current == end) {
+                start = end = position = null;
             }
+            //Es el inicio
+            else if (current == start) {
+                start = start.getNext();
+                start.setPrevious(null);
+                if (position == current) position = start;
+            }
+            //Es el final
+            else if (current == end) {
+                end = end.getPrevious();
+                end.setNext(null);
+                if (position == current) position = end;
+            }
+            // Está en medio
+            else {
+                current.getPrevious().setNext(current.getNext());
+                current.getNext().setPrevious(current.getPrevious());
+                if (position == current) position = current.getNext();
+            }
+            cont--;
+            return current.getNameStop();
         }
 
         return deleted;
     }
 
+    public String showCurrentStop() {
+        if (position == null) {
+            return "Sin paradas configuradas";
+        }
+        return position.getNameStop();
+    }
     @Override
     public void goNext() {
         position = position.getNext();
@@ -112,6 +141,9 @@ public class Distribution extends DoubleList {
         return start == null;
     }
 
+    public int getCont() {
+        return cont;
+    }
 
     public static void menu(){
         System.out.println("----------------------------------------------------");

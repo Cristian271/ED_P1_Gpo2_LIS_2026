@@ -4,13 +4,15 @@ import data.estructures.doublylinkedlist.*;
 
 public class Distribution extends DoubleList {
     protected int cont;
+
+    //Constructor de la clase que no recibe argumentos
     public Distribution(){
         cont = 0;
         this.position = null;
     }
 
-
-
+    /** Sin un retorno determinado, recibe un string identificador de un elemento
+     Si la pila está vacía inserta el elemento como inicio y final, si no lo inserta al final actualizando la etiqueta end*/
     @Override
     public void insertEnd(String nameStop) {
         if(isEmpty()){
@@ -24,7 +26,10 @@ public class Distribution extends DoubleList {
             cont++;
         }
     }
-
+    /** Sin un retorno determinado, recibe un string identificador de un nuevo elemento y de 2 que se encuentra en la lista.
+     Si la pila está vacía hace la notificación, si no recorre la lista tratando de encontran los 2 elemento que son parametros
+     si enceuntra ambos entonces lo inserta en el medio, ajustando los datos que indican los elementos siguiente y anterior dentro de los propios elementos
+     en caso contrario notifica que no se pudo realizar la acción*/
     @Override
     public void insertBetween(String one, String two, String nameStop) {
         if(isEmpty() || cont <= 1){
@@ -77,7 +82,8 @@ public class Distribution extends DoubleList {
 
         }
     }
-
+    /** Recibiendo el identificador de una parada intenta buscarla dentro de la lista, si la encuentra lo que hace
+     es eliminarla y retornar un string con el identificador de la parada que fue eliminada*/
     @Override
     public String deleteStop(String name) {
         String deleted = null;
@@ -119,13 +125,15 @@ public class Distribution extends DoubleList {
 
         return deleted;
     }
-
+    /** Sin datos de entrada, solo retorna un string con el identificador de la parada en la que se encuentra situado, si la hay*/
     public String showCurrentStop() {
         if (position == null) {
             return "Sin paradas configuradas";
         }
         return position.getNameStop();
     }
+    /** Sin recibir ni retornar ningún dato, mueve la etiqueta de la pocisión actual a la que sigue,
+     con ayuda de la información del elemento en que se encuentra actualmente (mientras sea posible)*/
     @Override
     public void goNext() {
 
@@ -135,7 +143,8 @@ public class Distribution extends DoubleList {
             System.out.println("ULtima parada, ya no se puede recorrer hacia el siguiente");
         }
     }
-
+    /** Sin recibir ni retornar ningún dato, mueve la etiqueta de la pocisión actual a la anterior,
+     con ayuda de la información del elemento en que se encuentra actualmente (mientras sea posible)*/
     @Override
     public void goBack() {
 
@@ -145,16 +154,16 @@ public class Distribution extends DoubleList {
             System.out.println("Primera parada, ya no se puede recorrer para atrás");
         }
     }
-
+    /** Sin recibir datos, retorna un boolean que indica si la fila se encuentra vacía */
     @Override
     public boolean isEmpty() {
         return start == null;
     }
-
+    /** No recibe datos, solo se encarga de retornar un enetero con el número de paradas que se encuentran registradas en la lista*/
     public int getCont() {
         return cont;
     }
-
+    /** Función sin parametros de entrada ni salida que se encarga de mostrar las opciones dentro del módulo*/
     public static void menu(){
         System.out.println("----------------------------------------------------");
         System.out.println("---------- MENU DE RUTAS DE DISTRIBUCIÓN  ----------");
@@ -165,20 +174,5 @@ public class Distribution extends DoubleList {
         System.out.println("4) SIMULAR RECORRIDO");
         System.out.println("5) Volver al menú principal");
     }
-    // Esto se borra luego, es unicamente para probar
-    public static void main(String[] args) {
-        Distribution list = new Distribution();
-        list.insertEnd("Parada1");
-        list.insertBetween("Parada1", "Parada3", "Parada2");
-        list.insertEnd("Parada3");
-        list.insertEnd("Parada4");
-        list.insertEnd("Parada5");
-        list.insertEnd("Parada7");
-        list.insertBetween("Parada5", "Parada7", "Parada6");
-        list.insertBetween("Parada7", "Parada5", "Parada6.5");
-        list.deleteStop("Parada6");
-        list.insertBetween("Parada7", "Parada5", "Parada6.5");
-        list.imprimir();
-        menu();
-    }
+
 }

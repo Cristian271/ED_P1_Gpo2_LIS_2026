@@ -5,9 +5,13 @@ public class Yard extends ContainerSimpleList{
     private int count = 0;
     private final int limit;
 
+    //Constructor de la clase que recibe un elemento entero que es el limite y retorna un Yard
     public Yard(int limit) {
         this.limit = limit; // Se asigna al crear la instancia
     }
+
+    /** Sin argumentos de entrada ni salida
+     Se encarga de mostrar la información que está almacenada en los contenedores (si hay contenedores)*/
     @Override
     public void inspectContainer() {
         if (isEmpty()) {
@@ -19,11 +23,15 @@ public class Yard extends ContainerSimpleList{
 
     }
 
+    /** Sin datos de entrada, se encarga de eliminar cotenedores de la pila, devuelve el que se encuentra en el topo,
+     es decir, el que va a eliminar */
     @Override
     public Container popContainer() {
         return pop();
     }
-
+    /** Recibe una entrada tipo Container, aunque no regresa nada se encarga de apilar un nuevo elemento
+     si la lista está vacía lo agrega como primer y último dato, si hay elementos lo agrega como start
+     pero siempre asegurando que no se rebase el limite de la pila*/
     @Override
     public void push(Container container) {
         if (count >= limit) {
@@ -39,7 +47,8 @@ public class Yard extends ContainerSimpleList{
         count++;
 
     }
-
+    /** Regresa un Container, sin recibir, nada se encarga de eliminar un elemento de la pila
+     Verifica si esta vacía, si no lo está eliminado el elemento maracado como start y actauliza las etiquetas */
     @Override
     public Container pop() {
         if (isEmpty()) {
@@ -55,22 +64,22 @@ public class Yard extends ContainerSimpleList{
 
         return temp;
     }
-
+    /**No necesita datos de entrada, solo retorna el Container que está en el tope de la pila*/
     @Override
     public Container top() {
         return start;
     }
-
+    /** Sin recibir nada, solo retorna un entero con el tamaño de la pila*/
     @Override
     public int size() {
         return count;
     }
-
+    /** Sin recibir datos de entrada devuelve un entero que indica si la pila está vacía o contiene elementos*/
     @Override
     public boolean isEmpty() {
         return start == null;
     }
-
+    /** No recibe datos de entrada pero se encarga de regresar un float con el resultado del proceso de calcular la suma total del peso de los elementos de la pila */
     public float calculateTotalStackWeight() {
         float sum = 0;
         Container current = start; // Recorremos desde el tope
@@ -80,7 +89,7 @@ public class Yard extends ContainerSimpleList{
         }
         return sum;
     }
-
+    /** Sin datos de entrada ni salida, solo se encraga de mostrar las funciones del módulo */
     public static void menu() {
         System.out.println("\n----------------------------------------------------");
         System.out.println("---------- MENÚ: PATIO DE CONTENEDORES -------");
@@ -91,7 +100,7 @@ public class Yard extends ContainerSimpleList{
         System.out.println("4) INSPECCIONAR CONTENIDO ");
         System.out.println("5) Volver al menú principal");
     }
-
+    /** Sin datos de entrada ni salida, solo se encraga de mostrar las funciones dentro de una de las funciones del modulo */
     public static void menuInspeccion() {
         System.out.println("\n------GESTIÓN DE PRODUCTOS --------");
         System.out.println("1) Agregar producto al contenedor");

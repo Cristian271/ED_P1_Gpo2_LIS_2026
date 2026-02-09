@@ -3,7 +3,7 @@ package data.estructures.queue;
 public abstract class QueueDoubleList implements Queue{
     protected BusQueue start;
     protected BusQueue end;
-
+    /**No tiene datos de entrada ni salida, sin ambargo, se encaraga del recorrido de la lista de camiones mostrando el nombre identificador de cada uno*/
     public void print(){
         BusQueue current = start;
         if(current == null){

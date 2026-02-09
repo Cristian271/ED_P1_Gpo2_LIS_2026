@@ -10,6 +10,9 @@ public class Reception extends QueueDoubleList {
 
     // Start -> El primero que sale, End -> El ultimo que sale ; Aclaración
 
+    /** No tiene parametros de entrada ni salida.
+     Cuando se agrega un elemento nuevo a la cola si está vacía se establce como el primero y el último, si no
+     ingresa el elemento al final de cola, actualizando la etiqueta de end */
     @Override
     public void enqueue() {
         Scanner scanner = new Scanner(System.in);
@@ -24,7 +27,10 @@ public class Reception extends QueueDoubleList {
 
         }
     }
-
+    /** No tiene paramateros de entrada con salida BusQueue (el elemento a eliminar).
+     Cuando se elimina un elemento de la cola vacía notifica el estado de esta,
+     si hay un solo elemento, reduce el tamaña de la pila y la actualiza a nula, y si tiene más elementos
+     lo que hace es actualizar la etiqueta de inicio y el dato de elemento previo del segundo elemento*/
     @Override
     public BusQueue dequeue() {
         BusQueue deleted = null;
@@ -46,22 +52,22 @@ public class Reception extends QueueDoubleList {
 
         return deleted;
     }
-
+    /** Sin parametros de entrada, regresa un entero con el tamaño de la cola */
     @Override
     public int size() {
         return cont;
     }
-
+    /** Sin parametros de entrada, regresa un BusQueue del elemento que se encuentra al inicio de la cola */
     @Override
     public BusQueue front() {
         return start;
     }
-
+    /** Sin parametros de entrada, retorna true si la cola se encuentra vacía, o al contrario false */
     @Override
     public boolean isEmpty() {
         return cont == 0;
     }
-
+    /** Funciones sin entrada ni salida, se encarga unicamente de mostrar las opciones del modulo */
     public static void menu(){
         System.out.println("----------------------------------------------------");
         System.out.println("---------------- ZONA DE RECEPCIÓN  ----------------");
@@ -73,31 +79,4 @@ public class Reception extends QueueDoubleList {
         System.out.println("5) Volver al menú principal");
     }
 
-    // Esto se borra luego, es unicamente para probar
-    public static void main(String[] args) {
-        Reception list = new Reception();
-        menu();
-        list.enqueue();
-        list.enqueue();
-        list.enqueue();
-        list.enqueue();
-        list.print();
-        System.out.println("Tamaño: " + list.size());
-        list.dequeue();
-        System.out.println("Tamaño: " + list.size());
-        list.print();
-        list.dequeue();
-        list.dequeue();
-        System.out.println("Tamaño: " + list.size());
-        list.print();
-        list.dequeue();
-        System.out.println("Tamaño: " + list.size());
-        list.dequeue();
-        list.print();
-
-
-
-
-
-    }
 }

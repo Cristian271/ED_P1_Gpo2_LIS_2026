@@ -14,6 +14,7 @@ public class ManagementSystem {
     private static Yard[] pilas; // pilas multiples
     private static int stackLimit;
 
+    /**Punto de entrada para el sistema*/
     public static void main(String[] args) {
         configuracionInicial();
         int option = 0;
@@ -43,6 +44,10 @@ public class ManagementSystem {
         } while (option != 5);
     }
 
+    /**Es la primera función a la que se llama una vez se inicializa el programa.
+        Sin parametros de entrada o salida, en su ejecución le solicita al usuario la cantidad de pilas de contenedores que se van a gestionar y el limite de capacidad de estas.
+        De este modo es que inicializa el arreglo de pilas y establce el limite en cada elemento.
+    */
     private static void configuracionInicial() {
         System.out.println("=== CONFIGURACIÓN INICIAL DEL PUERTO  ===");
         System.out.println("Ingrese la cantidad de contenedores (Pilas) que hay: ");
@@ -57,6 +62,9 @@ public class ManagementSystem {
         }
     }
 
+    /** Función sin parametros de entrada ni salida.
+    Se encaraga de una función de impresión para mostrarle al usuario las opciones disponibles dentro del sistema.
+     */
     private static void menuPrincipal() {
         System.out.println("\n====================================================");
         System.out.println("   PUERTO PROGRESO SYSTEM - GESTIÓN");
@@ -69,7 +77,10 @@ public class ManagementSystem {
         System.out.println("Seleccione una opción: ");
     }
 
-
+    /** Función que se despliega en la selección del primer módulo (A), la zona de recepción.
+    Se encaraga de desplegar el menú de este módulo y regsitrar la opción seleccionada.
+    Además, utiliza los elementos establecidos en BusQueue para llamar a realizar las acciones solicitas.
+    */
     private static void subMenu1() {
         int option;
         do {
@@ -107,6 +118,10 @@ public class ManagementSystem {
         } while (option != 5);
     }
 
+    /** Función que se despliega en la selección del segundo módulo (B), el patio de contenedores.
+    Se encaraga de desplegar el menú de este módulo y regsitrar la opción seleccionada.
+    Maneja la información de los camiones, es decir, la información de las pilas.
+    */
     private static void subMenu2() {
         int option;
         do {
@@ -150,6 +165,10 @@ public class ManagementSystem {
         } while (option != 5);
     }
 
+    /** Función que se despliega en la selección del tercer módulo (C), el manifiesto de carga.
+    Se encaraga de desplegar el menú de este módulo y regsitrar la opción seleccionada.
+    Se trata de la descripción de los productos de contenedores mediante el uso de listas simplemente ligadas.
+    */
     private static void inspect(int p) {
         if (pilas[p].isEmpty()) {
             System.out.println("No hay nada para inspeccionar en esta pila.");
@@ -228,7 +247,9 @@ public class ManagementSystem {
         } while (option != 5);
     }
 
-
+    /** Función que se despliega la información del cuarto módulo (D), reporte general.
+    No tiene entradas, solo muestra el estado de los camiones (colas), el inventario (pilas) y las rutas.
+    */
     private static void showGeneralReport() {
         System.out.println("\n[ESTADO DE RECEPCIÓN]:");
         System.out.println(">> Camiones en espera: " + busQueue.size());
@@ -267,6 +288,10 @@ public class ManagementSystem {
         scanner.nextLine();
     }
 
+    /**Es un simulador de la rutas.
+    Se maanjea con listas ligadas, permitiendole al usuario visuxalizar la parada en la que se encuentra, avanzar o retroceder dentro de la ruta.
+    Es usado únicamente cuando hay una ruta establecida.
+    */
     private static void simulateRoute() {
         int option;
         do {

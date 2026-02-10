@@ -9,9 +9,9 @@ import java.util.Scanner;
 public class ContainerContent extends ProductSimpleList {
 
     /** Sin parametros de entrada ni salida.
-     Cada que se negistra un nuevo producto, se pide el ingreso de la información completa,
-     si la lista está vacía se establece como el inicio y el final, si no se establce como un nuevo nodo final ajustando
-     el dato de siguiente que tiene el previo nodo anterior*/
+     Cada que se registra un nuevo producto, se solicita la información completa.
+     Si la lista está vacía, el nuevo producto se establece como inicio y final.
+     En caso contrario, se inserta un nuevo nodo al inicio de la lista, apuntando al nodo que antes era el primero.*/
     @Override
     public void addProduct() {
         Scanner scanner = new Scanner(System.in);
@@ -22,12 +22,10 @@ public class ContainerContent extends ProductSimpleList {
         float weight = scanner.nextFloat();
         scanner.nextLine();
 
-        Product newP = new Product(name, weight);
         if (start == null) {
-            start = end = newP;
+            start = end = new Product(name, weight);
         } else {
-            end.setNext(newP);
-            end = newP;
+            start = new Product(name, weight, start);
         }
 
     }

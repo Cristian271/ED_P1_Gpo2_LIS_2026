@@ -1,5 +1,6 @@
 package main;
 
+import data.estructures.doublylinkedlist.StopBus;
 import main.modulea.Reception;
 import main.modulebc.Yard;
 import main.moduled.Distribution;
@@ -13,7 +14,9 @@ public class ManagementSystem {
     private static Distribution route = new Distribution();
     private static Yard[] pilas; // pilas multiples
     private static int stackLimit;
-
+    private static Distribution[] routes;
+    private static int activeRoutes = 0;
+    private static int n;       //Es la cantidad de rutas existentes
     /**Punto de entrada para el sistema*/
     public static void main(String[] args) {
         configuracionInicial();
@@ -55,10 +58,17 @@ public class ManagementSystem {
         System.out.println("Defina la altura máxima de cada pila: ");
         stackLimit = scanner.nextInt();
         scanner.nextLine();
-
+        System.out.println("Defina la cantidad de rutas existentes");
+        n = scanner.nextInt();
+        scanner.nextLine();
+        routes = new Distribution[n];
         pilas = new Yard[cant];
         for (int i = 0; i < cant; i++) {
             pilas[i] = new Yard(stackLimit);
+        }
+
+        for (int i = 0; i < n; i++) {
+            routes[i] = new Distribution();
         }
     }
 
@@ -206,6 +216,9 @@ public class ManagementSystem {
 
 
     private static void subMenu3() {
+        System.out.println("Ingrese el numero de ruta, las opciones estan entre 0 y " + (n-1));
+        int i = scanner.nextInt();
+        scanner.nextLine();
         int option;
         do {
             Distribution.menu();
@@ -215,7 +228,7 @@ public class ManagementSystem {
             switch (option) {
                 case 1:
                     System.out.println("Escriba el nombre de la nueva parada: ");
-                    route.insertEnd(scanner.nextLine());
+                    routes[i].insertEnd(scanner.nextLine());
                     break;
                 case 2:
                     System.out.println("A continuación, escriba las paradas entre las que se quiere insertar ");
@@ -225,26 +238,45 @@ public class ManagementSystem {
                     String stop2 = scanner.nextLine();
                     System.out.println("Nueva parada intermedia: ");
                     String newStop = scanner.nextLine();
-                    route.insertBetween(stop1, stop2, newStop);
+                    routes[i].insertBetween(stop1, stop2, newStop);
                     break;
                 case 3:
                     System.out.println("Nombre de parada a cancelar: ");
-                    route.deleteStop(scanner.nextLine());
+                    routes[i].deleteStop(scanner.nextLine());
                     break;
                 case 4:
-                    if (route.isEmpty()) {
+                    if (routes[i].isEmpty()) {
                         System.out.println("No hay paradas en la ruta para simular.");
                     } else {
                         simulateRoute();
                     }
                     break;
                 case 5:
+                    if(routes[i].getStatus() == false) {
+                        routes[i].setStatus(true);
+                        activeRoutes++;
+                    } else{
+                        System.out.println("La ruta ya esta activa");
+                    }
+
+                    break;
+                case 6:
+                    if(routes[i].getStatus() == true) {
+                        routes[i].setStatus(false);
+                        activeRoutes--;
+                    } else{
+                        System.out.println("La ruta ya esta desactivada");
+                    }
+                    break;
+                case 7:
+                    System.out.println("Las paradas de esta ruta");
+                    routes[i].imprimir();
                     System.out.println("Volviendo ... ");
                 default:
                     System.out.println("Opción no válida.");
                     break;
             }
-        } while (option != 5);
+        } while (option != 7);
     }
 
     /** Función que se despliega la información del cuarto módulo (D), reporte general.
@@ -281,7 +313,7 @@ public class ManagementSystem {
         }
 
         System.out.println("\n[ESTADO DE LOGÍSTICA]:");
-        System.out.println(" >> Rutas activas: " + (route.isEmpty() ? "0" : "1"));
+        System.out.println(" >> Rutas activas: " + activeRoutes);
         System.out.println(" >> Próximo destino: " + route.showCurrentStop());
         System.out.println(" >> Total de paradas programadas: " + route.getCont());
         System.out.println("\n--Presione Enter para volver al menú principal--");

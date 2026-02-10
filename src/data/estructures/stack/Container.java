@@ -1,11 +1,13 @@
 package data.estructures.stack;
 
+import data.estructures.doublylinkedlist.StopBus;
 import main.modulebc.ContainerContent;
 
 public class Container {
     protected Container next;
     protected String id;
     protected ContainerContent list;
+    protected StopBus route;
 
     /** Clase que establece el tipo de dato que se va a uitlizar (nodos) tipo  Container*/
     //Contructor que únicamente recibe un string (para el primer elemento), retornando un dato tipo Container

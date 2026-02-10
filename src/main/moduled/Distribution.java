@@ -4,6 +4,7 @@ import data.estructures.doublylinkedlist.*;
 
 public class Distribution extends DoubleList {
     protected int cont;
+    protected boolean status = false;
 
     //Constructor de la clase que no recibe argumentos
     public Distribution(){
@@ -163,6 +164,17 @@ public class Distribution extends DoubleList {
     public int getCont() {
         return cont;
     }
+    /** No recibe datos, solo retorna un boolean para verificar el status*/
+    public boolean getStatus(){
+        return status;
+    }
+
+    /** Inicializa el estatus con algun valor booleano*/
+    public void setStatus(boolean status){
+        this.status = status;
+    }
+
+
     /** Función sin parametros de entrada ni salida que se encarga de mostrar las opciones dentro del módulo*/
     public static void menu(){
         System.out.println("----------------------------------------------------");
@@ -172,7 +184,9 @@ public class Distribution extends DoubleList {
         System.out.println("2) Insertar parada entre destinos");
         System.out.println("3) Eliminar parada");
         System.out.println("4) SIMULAR RECORRIDO");
-        System.out.println("5) Volver al menú principal");
+        System.out.println("5) Activar ruta");
+        System.out.println("6) Desactivar ruta");
+        System.out.println("7) Volver al menú principal");
     }
 
 }

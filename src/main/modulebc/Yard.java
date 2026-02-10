@@ -10,25 +10,40 @@ public class Yard extends ContainerSimpleList{
         this.limit = limit; // Se asigna al crear la instancia
     }
 
-    /** Sin argumentos de entrada ni salida
-     Se encarga de mostrar la información que está almacenada en los contenedores (si hay contenedores)*/
-    @Override
-    public void inspectContainer() {
-        if (isEmpty()) {
-            System.out.println("No hay contenedores para inspeccionar.");
-            return;
-        }
-        System.out.println("Inspeccionando Contenedor ID: " + start.getId());
-        System.out.println("Peso total acumulado: " + start.getList().calculateWeight() + " kg");
-
-    }
 
     /** Sin datos de entrada, se encarga de eliminar cotenedores de la pila, devuelve el que se encuentra en el topo,
      es decir, el que va a eliminar */
     @Override
-    public Container popContainer() {
-        return pop();
+    public Container popContainer(String id) {
+        if (isEmpty()) {
+            System.out.println("El patio está vacío");
+            return null;
+        }
+
+        Container auxiliar = null; // pila manual
+        Container popped = null;
+
+        while (!isEmpty()) {
+            Container current = pop();
+            if (current.getId().equals(id)) {
+                popped = current;
+                break;
+            }
+            current.setNext(auxiliar);
+            auxiliar = current;
+        }
+
+        // regresar elementos
+        while (auxiliar != null) {
+            Container next = auxiliar.getNext();
+            auxiliar.setNext(null);
+            push(auxiliar);
+            auxiliar = next;
+        }
+
+        return popped;
     }
+
     /** Recibe una entrada tipo Container, aunque no regresa nada se encarga de apilar un nuevo elemento
      si la lista está vacía lo agrega como primer y último dato, si hay elementos lo agrega como start
      pero siempre asegurando que no se rebase el limite de la pila*/

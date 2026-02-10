@@ -154,10 +154,16 @@ public class ManagementSystem {
                         pilas[p].push(new Container(idC));
                         break;
                     case 2:
-                        Container popped = pilas[p].pop();
-                        if (popped != null) {
-                            System.out.println("Contenedor " + popped.getId() + " retirado");
-                        }
+                        System.out.println("ID del contenedor a retirar");
+                        String idS = scanner.nextLine();
+                        Container popped = pilas[p].popContainer(idS);
+                        if (popped == null){
+                        System.out.println("No se encontró el contenedor con el id: "+ idS);
+                    } else {
+                        System.out.println("Se eliminó el contenedor con id: "+ popped.getId());
+                    }
+
+
                         break;
                     case 3:
                         if (!pilas[p].isEmpty()) {
@@ -178,13 +184,26 @@ public class ManagementSystem {
     /** Función que se despliega en la selección del tercer módulo (C), el manifiesto de carga.
     Se encaraga de desplegar el menú de este módulo y regsitrar la opción seleccionada.
     Se trata de la descripción de los productos de contenedores mediante el uso de listas simplemente ligadas.
+     Funcion que inspecciona cualquier contendor de la pila
     */
     private static void inspect(int p) {
         if (pilas[p].isEmpty()) {
             System.out.println("No hay nada para inspeccionar en esta pila.");
             return;
         }
+
+        System.out.print("Ingrese ID del contenedor a inspeccionar: ");
+        String id = scanner.nextLine();
+
+        // Buscar contenedor sin alterar la pila
         Container actual = pilas[p].top();
+        while (actual != null && !actual.getId().equals(id)) {
+            actual = actual.getNext();
+        }
+        if (actual == null) {
+            System.out.println("No se encontró el contenedor");
+            return;
+        }
         int option;
         do {
             System.out.println("\n--- INSPECCIONANDO: CONTENEDOR " + actual.getId() + " ---");

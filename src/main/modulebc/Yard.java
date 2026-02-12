@@ -11,8 +11,8 @@ public class Yard extends ContainerSimpleList{
     }
 
 
-    /** Sin datos de entrada, se encarga de eliminar cotenedores de la pila, devuelve el que se encuentra en el topo,
-     es decir, el que va a eliminar */
+    /** Sin datos de entrada, se encarga de eliminar cotenedores de la pila, devuelve el que se encuentra en el top de la pila,
+     siempre y cuando, sea el que se busca*/
     @Override
     public Container popContainer(String id) {
         if (isEmpty()) {

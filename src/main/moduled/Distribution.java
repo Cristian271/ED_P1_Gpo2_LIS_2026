@@ -154,6 +154,12 @@ public class Distribution extends DoubleList {
             System.out.println("Primera parada, ya no se puede recorrer para atrás");
         }
     }
+
+    //necesario para saber cual es el inicio de rutas para todos los contenedores mandados a ruta
+    public StopBus firstStopBus(){
+        return start;
+    }
+
     /** Sin recibir datos, retorna un boolean que indica si la fila se encuentra vacía */
     @Override
     public boolean isEmpty() {
@@ -163,6 +169,7 @@ public class Distribution extends DoubleList {
     public int getCont() {
         return cont;
     }
+
     /** Función sin parametros de entrada ni salida que se encarga de mostrar las opciones dentro del módulo*/
     public static void menu(){
         System.out.println("----------------------------------------------------");
@@ -174,5 +181,7 @@ public class Distribution extends DoubleList {
         System.out.println("4) SIMULAR RECORRIDO");
         System.out.println("5) Volver al menú principal");
     }
+
+
 
 }

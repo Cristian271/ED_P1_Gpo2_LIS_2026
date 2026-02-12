@@ -25,6 +25,7 @@ public abstract class DoubleList {
     public abstract boolean isEmpty();
 
     //Sin parametros de entrada o salida, se encarga de mostrar la información de los elementos en el orden en que se encuentran alamacenados en la lista
+    // fue muy util para debuggear, pero termino sin uso, lo dejamos como evidencia
     public void imprimir(){
         StopBus node = start;
         while(node != null){
@@ -32,7 +33,12 @@ public abstract class DoubleList {
             node = node.getNext();
         }
     }
+    // getter and setter de position, necesario para la simulación de rutas
+    public StopBus getPosition() {
+        return position;
+    }
 
-
-
+    public void setPosition(StopBus position) {
+        this.position = position;
+    }
 }

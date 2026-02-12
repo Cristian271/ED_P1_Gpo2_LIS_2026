@@ -1,6 +1,7 @@
 package main;
 
 import main.modulea.Reception;
+import main.modulebc.ContainerContent;
 import main.modulebc.Yard;
 import main.moduled.Distribution;
 import data.estructures.stack.Container;
@@ -13,6 +14,10 @@ public class ManagementSystem {
     private static Distribution route = new Distribution();
     private static Yard[] pilas; // pilas multiples
     private static int stackLimit;
+    private static int activeRoutes;
+    // Estos atributos son para crear una lista simple de los contenedores mandados a ruta
+    protected static Container start = null;
+    protected static Container end = null;
 
     /**Punto de entrada para el sistema*/
     public static void main(String[] args) {
@@ -120,7 +125,8 @@ public class ManagementSystem {
 
     /** Función que se despliega en la selección del segundo módulo (B), el patio de contenedores.
     Se encaraga de desplegar el menú de este módulo y regsitrar la opción seleccionada.
-    Maneja la información de los camiones, es decir, la información de las pilas.
+    Maneja la información de los camiones, es decir, la información de las pilas. Tambien genera una lista simple con todos
+    los camiones mandados a ruta
     */
     private static void subMenu2() {
         int option;
@@ -150,7 +156,16 @@ public class ManagementSystem {
                         if (popped == null){
                         System.out.println("No se encontró el contenedor con el id: "+ idS);
                     } else {
-                        System.out.println("Se eliminó el contenedor con id: "+ popped.getId());
+                        System.out.println("Se retiró el contenedor y se mandó a la ruta, id: "+ popped.getId());
+                        activeRoutes++;
+                        popped.setPositionC(route.firstStopBus());
+                        if(start == null){
+                            start = end = popped;
+                        } else{
+                            end.setNext(popped);
+                            end = popped;
+                        }
+
                     }
 
 
@@ -223,7 +238,7 @@ public class ManagementSystem {
         } while (option != 4);
     }
 
-
+    /**Este submenu es el encargado de gestionar la distribución, es decir, crear paradas, eliminar paradas y simular rutas*/
     private static void subMenu3() {
         int option;
         do {
@@ -254,7 +269,23 @@ public class ManagementSystem {
                     if (route.isEmpty()) {
                         System.out.println("No hay paradas en la ruta para simular.");
                     } else {
-                        simulateRoute();
+                        System.out.println("Ingrese el id del contenedor que se encuentra en ruta para simular su recorrido");
+                        String idtemp = scanner.nextLine();
+                        boolean encontrado = false;
+                        Container current = start;
+                        while(current != null){
+                            if(current.getId().equals(idtemp)){
+                                encontrado = true;
+                                break;
+                            }
+                            current = current.getNext();
+                        }
+                        if(encontrado){
+                            simulateRoute(current);
+                        } else{
+                            System.out.println("No se puedo localizar el contenedor, asegurese que los datos esten correctos");
+                        }
+
                     }
                     break;
                 case 5:
@@ -300,7 +331,7 @@ public class ManagementSystem {
         }
 
         System.out.println("\n[ESTADO DE LOGÍSTICA]:");
-        System.out.println(" >> Rutas activas: " + (route.isEmpty() ? "0" : "1"));
+        System.out.println(" >> Rutas activas: " + activeRoutes);
         System.out.println(" >> Próximo destino: " + route.showCurrentStop());
         System.out.println(" >> Total de paradas programadas: " + route.getCont());
         System.out.println("\n--Presione Enter para volver al menú principal--");
@@ -308,11 +339,12 @@ public class ManagementSystem {
     }
 
     /**Es un simulador de la rutas.
-    Se maanjea con listas ligadas, permitiendole al usuario visuxalizar la parada en la que se encuentra, avanzar o retroceder dentro de la ruta.
-    Es usado únicamente cuando hay una ruta establecida.
+    Recibe el contenedor que vamos a simular su ruta, el cual, recibimos su posición, y realizamos toda la simulación, al terminar
+    se actualiza el atributo positionC del contenedor, con el valor de position
     */
-    private static void simulateRoute() {
+    private static void simulateRoute(Container simulate) {
         int option;
+        route.setPosition(simulate.getPositionC());
         do {
             System.out.println("\n----NAVEGACIÓN DE RUTA ----");
             System.out.println("Parada actual: " + route.showCurrentStop());
@@ -339,6 +371,8 @@ public class ManagementSystem {
                     break;
             }
         } while (option != 3);
+
+        simulate.setPositionC(route.getPosition());
     }
 
 }

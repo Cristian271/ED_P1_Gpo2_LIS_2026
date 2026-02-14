@@ -57,10 +57,12 @@ public class Distribution extends DoubleList {
                         StopBus temp = new StopBus(nameStop, current, current.getNext());
                         current.getNext().setPrevious(temp);
                         current.setNext(temp);
+                        cont++;
                     } else if(current.getPrevious() != null && current.getPrevious().getNameStop().equals(two)){
                         StopBus temp = new StopBus(nameStop, current.getPrevious(), current);
                         current.getPrevious().setNext(temp);
                         current.setPrevious(temp);
+                        cont++;
                     } else{
                         System.out.println("No se pudo añadir, error en el nombre de la parada 2");
                     }
@@ -70,10 +72,12 @@ public class Distribution extends DoubleList {
                         StopBus temp = new StopBus(nameStop, current, current.getNext());
                         current.getNext().setPrevious(temp);
                         current.setNext(temp);
+                        cont++;
                     } else if(current.getPrevious() != null && current.getPrevious().getNameStop().equals(one)){
                         StopBus temp = new StopBus(nameStop, current.getPrevious(), current);
                         current.getPrevious().setNext(temp);
                         current.setPrevious(temp);
+                        cont++;
                     } else{
                         System.out.println("No se pudo añadir, error en el nombre de la parada 1");
                     }

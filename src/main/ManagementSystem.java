@@ -54,8 +54,8 @@ public class ManagementSystem {
         De este modo es que inicializa el arreglo de pilas y establce el limite en cada elemento.
     */
     private static void configuracionInicial() {
-        System.out.println("=== CONFIGURACIÓN INICIAL DEL PUERTO  ===");
-        System.out.println("Ingrese la cantidad de contenedores (Pilas) que hay: ");
+        System.out.println("=== CONFIGURACIÓN INICIAL DEL PUERTO (CAPACIDAD MÁXIMA)  ===");
+        System.out.println("Ingrese la cantidad de columnas de contenedores (Pilas) que hay: ");
         int cant = scanner.nextInt();
         System.out.println("Defina la altura máxima de cada pila: ");
         stackLimit = scanner.nextInt();
@@ -150,21 +150,25 @@ public class ManagementSystem {
                         pilas[p].push(new Container(idC));
                         break;
                     case 2:
+                        if (route.isEmpty()) {
+                            System.out.println("No hay paradas creadas. Cree ruta primero.");
+                            break;
+                        }
                         System.out.println("ID del contenedor a retirar");
                         String idS = scanner.nextLine();
                         Container popped = pilas[p].popContainer(idS);
                         if (popped == null){
-                        System.out.println("No se encontró el contenedor con el id: "+ idS);
-                    } else {
-                        System.out.println("Se retiró el contenedor y se mandó a la ruta, id: "+ popped.getId());
-                        activeRoutes++;
-                        popped.setPositionC(route.firstStopBus());
-                        if(start == null){
-                            start = end = popped;
-                        } else{
-                            end.setNext(popped);
-                            end = popped;
-                        }
+                            System.out.println("No se encontró el contenedor con el id: "+ idS);
+                        } else {
+                            System.out.println("Se retiró el contenedor y se mandó a la ruta, id: "+ popped.getId());
+                            activeRoutes++;
+                            popped.setPositionC(route.firstStopBus());
+                            if(start == null){
+                                start = end = popped;
+                            } else{
+                                end.setNext(popped);
+                                end = popped;
+                            }
 
                     }
 
@@ -273,6 +277,11 @@ public class ManagementSystem {
                         String idtemp = scanner.nextLine();
                         boolean encontrado = false;
                         Container current = start;
+                        if(start == null){
+                            System.out.println("No hay contenedores en ruta");
+                            return;
+                        }
+
                         while(current != null){
                             if(current.getId().equals(idtemp)){
                                 encontrado = true;
